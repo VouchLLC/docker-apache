@@ -44,7 +44,8 @@ RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     php7.2-sockets \
     php7.2-xml \
     php7.2-yaml \
-    php7.2-zip
+    php7.2-zip \
+    phpunit
 
 RUN apt-get purge --assume-yes --auto-remove \
     --option APT::AutoRemove::RecommendsImportant=false \
