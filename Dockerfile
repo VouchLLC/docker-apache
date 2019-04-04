@@ -43,6 +43,7 @@ RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     php7.2-soap \
     php7.2-sockets \
     php7.2-xml \
+    php7.2-yaml \
     php7.2-zip
 
 RUN apt-get purge --assume-yes --auto-remove \
