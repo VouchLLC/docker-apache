@@ -20,6 +20,7 @@ RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     pdftk \
     php-geoip \
     php-yaml \
+    php7.2-apcu \
     php7.2-bcmath \
     php7.2-bz2 \
     php7.2-cli \
