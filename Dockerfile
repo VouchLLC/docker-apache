@@ -18,11 +18,7 @@ RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     apache2 \
     libapache2-mod-php7.2 \
     pdftk \
-    php-apcu \
     php-geoip \
-    php-msgpack \
-    php-redis \
-    php-xdebug \
     php-yaml \
     php7.2-bcmath \
     php7.2-bz2 \
@@ -34,7 +30,7 @@ RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     php7.2-json \
     php7.2-ldap \
     php7.2-mbstring \
-    php7.2-opcache \
+    php7.2-msgpack \
     php7.2-pdo \
     php7.2-pgsql \
     php7.2-pdo-pgsql \
@@ -45,7 +41,8 @@ RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     php7.2-xml \
     php7.2-yaml \
     php7.2-zip \
-    phpunit
+    php7.2-xdebug \
+    php7.2-redis 
 
 RUN apt-get purge --assume-yes --auto-remove \
     --option APT::AutoRemove::RecommendsImportant=false \
