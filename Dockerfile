@@ -16,34 +16,34 @@ RUN apt-get update
 
 RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     apache2 \
-    libapache2-mod-php7.2 \
+    libapache2-mod-php7.3 \
     pdftk \
     php-geoip \
     php-yaml \
-    php7.2-apcu \
-    php7.2-bcmath \
-    php7.2-bz2 \
-    php7.2-cli \
-    php7.2-common \
-    php7.2-curl \
-    php7.2-gd \
-    php7.2-intl \
-    php7.2-json \
-    php7.2-ldap \
-    php7.2-mbstring \
-    php7.2-msgpack \
-    php7.2-pdo \
-    php7.2-pgsql \
-    php7.2-pdo-pgsql \
-    php7.2-readline \
-    php7.2-simplexml \
-    php7.2-soap \
-    php7.2-sockets \
-    php7.2-xml \
-    php7.2-yaml \
-    php7.2-zip \
-    php7.2-xdebug \
-    php7.2-redis 
+    php7.3-apcu \
+    php7.3-bcmath \
+    php7.3-bz2 \
+    php7.3-cli \
+    php7.3-common \
+    php7.3-curl \
+    php7.3-gd \
+    php7.3-intl \
+    php7.3-json \
+    php7.3-ldap \
+    php7.3-mbstring \
+    php7.3-msgpack \
+    php7.3-pdo \
+    php7.3-pgsql \
+    php7.3-pdo-pgsql \
+    php7.3-readline \
+    php7.3-simplexml \
+    php7.3-soap \
+    php7.3-sockets \
+    php7.3-xml \
+    php7.3-yaml \
+    php7.3-zip \
+    php7.3-xdebug \
+    php7.3-redis 
 
 RUN apt-get purge --assume-yes --auto-remove \
     --option APT::AutoRemove::RecommendsImportant=false \
@@ -54,7 +54,7 @@ RUN curl -LS https://getcomposer.org/installer \
     | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY etc/apache2 /etc/apache2
-COPY etc/php /etc/php/7.2
+COPY etc/php /etc/php/7.3
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
