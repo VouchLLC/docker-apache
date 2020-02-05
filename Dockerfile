@@ -4,6 +4,11 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_ALLOW_XDEBUG=1
 ENV COMPOSER_DISABLE_XDEBUG_WARN=1
 ENV COMPOSER_MEMORY_LIMIT=-1
+ENV PHP_VERSION="7.3"
+ENV NVM_VERSION="0.35.1"
+ENV NODE_VERSION="10.18.1"
+ENV NVM_DIR="/root/.nvm"
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN echo "deb http://ppa.launchpad.net/malteworld/ppa/ubuntu bionic main" >> /etc/apt/sources.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 20D0BB61B700CE29
@@ -16,34 +21,44 @@ RUN apt-get update
 
 RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     apache2 \
-    libapache2-mod-php7.3 \
+    libapache2-mod-php${PHP_VERSION} \
     pdftk \
     php-geoip \
+    php-pear \
     php-yaml \
-    php7.3-apcu \
-    php7.3-bcmath \
-    php7.3-bz2 \
-    php7.3-cli \
-    php7.3-common \
-    php7.3-curl \
-    php7.3-gd \
-    php7.3-intl \
-    php7.3-json \
-    php7.3-ldap \
-    php7.3-mbstring \
-    php7.3-msgpack \
-    php7.3-pdo \
-    php7.3-pgsql \
-    php7.3-pdo-pgsql \
-    php7.3-readline \
-    php7.3-simplexml \
-    php7.3-soap \
-    php7.3-sockets \
-    php7.3-xml \
-    php7.3-yaml \
-    php7.3-zip \
-    php7.3-xdebug \
-    php7.3-redis 
+    php${PHP_VERSION}-apcu \
+    php${PHP_VERSION}-bcmath \
+    php${PHP_VERSION}-bz2 \
+    php${PHP_VERSION}-cli \
+    php${PHP_VERSION}-common \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-dev \
+    php${PHP_VERSION}-gd \
+    php${PHP_VERSION}-intl \
+    php${PHP_VERSION}-json \
+    php${PHP_VERSION}-ldap \
+    php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-msgpack \
+    php${PHP_VERSION}-pdo \
+    php${PHP_VERSION}-pgsql \
+    php${PHP_VERSION}-pdo-pgsql \
+    php${PHP_VERSION}-readline \
+    php${PHP_VERSION}-simplexml \
+    php${PHP_VERSION}-soap \
+    php${PHP_VERSION}-sockets \
+    php${PHP_VERSION}-xml \
+    php${PHP_VERSION}-yaml \
+    php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-xdebug \
+    php${PHP_VERSION}-redis 
+
+RUN mkdir -p /usr/local/etc/php/conf.d
+RUN mkdir -p /usr/local/lib/php/extensions
+RUN yes | pecl install xdebug >/dev/null 2>&1
+RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN apt-get purge --assume-yes --auto-remove \
     --option APT::AutoRemove::RecommendsImportant=false \
@@ -53,8 +68,19 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN curl -LS https://getcomposer.org/installer \
     | php -- --install-dir=/usr/local/bin --filename=composer
 
+###########
+## install node/npm/NVM
+###########
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+SHELL ["/bin/bash", "-c"] 
+
 COPY etc/apache2 /etc/apache2
-COPY etc/php /etc/php/7.3
+COPY etc/php /etc/php/${PHP_VERSION}
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
@@ -65,3 +91,4 @@ RUN chmod 755 /usr/local/bin/*
 STOPSIGNAL SIGWINCH
 
 CMD ["apache2", "-DFOREGROUND"]
+
