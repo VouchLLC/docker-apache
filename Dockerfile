@@ -1,20 +1,18 @@
-FROM intxlog/ubuntu1804
+FROM canvouch/ubuntu2004
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_ALLOW_XDEBUG=1
 ENV COMPOSER_DISABLE_XDEBUG_WARN=1
 ENV COMPOSER_MEMORY_LIMIT=-1
-ENV PHP_VERSION="7.3"
+ENV PHP_VERSION="7.4"
 ENV NVM_VERSION="0.35.1"
-ENV NODE_VERSION="10.18.1"
+ENV NODE_VERSION="14"
+ENV UBUNTU_NAME="focal"
 ENV NVM_DIR="/root/.nvm"
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-RUN echo "deb http://ppa.launchpad.net/malteworld/ppa/ubuntu bionic main" >> /etc/apt/sources.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 20D0BB61B700CE29
-
-RUN echo "deb http://ppa.launchpad.net/ondrej/apache2/ubuntu bionic main" >> /etc/apt/sources.list
-RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" >> /etc/apt/sources.list
+RUN echo "deb http://ppa.launchpad.net/ondrej/apache2/ubuntu ${UBUNTU_NAME} main" >> /etc/apt/sources.list
+RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu ${UBUNTU_NAME} main" >> /etc/apt/sources.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C
 
 RUN apt-get update
