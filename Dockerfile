@@ -4,7 +4,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_ALLOW_XDEBUG=1
 ENV COMPOSER_DISABLE_XDEBUG_WARN=1
 ENV COMPOSER_MEMORY_LIMIT=-1
-ENV PHP_VERSION="7.4"
+ENV PHP_VERSION="8.0"
 ENV NVM_VERSION="0.35.1"
 ENV NODE_VERSION="14"
 ENV UBUNTU_NAME="focal"
@@ -33,7 +33,6 @@ RUN apt-get install --assume-yes --no-install-recommends --no-install-suggests \
     php${PHP_VERSION}-dev \
     php${PHP_VERSION}-gd \
     php${PHP_VERSION}-intl \
-    php${PHP_VERSION}-json \
     php${PHP_VERSION}-ldap \
     php${PHP_VERSION}-mbstring \
     php${PHP_VERSION}-msgpack \
@@ -77,8 +76,8 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/instal
 
 SHELL ["/bin/bash", "-c"] 
 
-COPY etc/apache2 /etc/apache2
-COPY etc/php /etc/php/${PHP_VERSION}
+#COPY etc/apache2 /etc/apache2
+#COPY etc/php /etc/php/${PHP_VERSION}
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
